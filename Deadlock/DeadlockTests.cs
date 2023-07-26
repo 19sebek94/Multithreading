@@ -61,39 +61,5 @@ namespace Deadlock
                 }
             }
         }
-
-        //    [Fact]
-        //    public void TimeoutOccuredWhenDeadlockTest()
-        //    {
-        //        output.WriteLine("Main Thread Started");
-        //        Wallet wallet1 = new Wallet(100, 5000);
-        //        Wallet wallet2 = new Wallet(200, 3000);
-        //        Bank bank1 = new AliorBank(wallet1, wallet2, 300);
-        //        Thread thread1 = new Thread(bank1.TransferMoney)
-        //        {
-        //            Name = "Thread1"
-        //        };
-
-        //        Bank bank2 = new AliorBank(wallet2, wallet1, 500);
-        //        Thread thread2 = new Thread(bank2.TransferMoney)
-        //        {
-        //            Name = "Thread2"
-        //        };
-
-        //        thread1.Start();
-        //        thread2.Start();
-        //        var timeout1 = thread1.Join(5000);
-        //        if (!timeout1)
-        //        {
-        //            throw new Exception("Deadlock appeared");
-        //        }
-
-        //        var timeout2 = thread2.Join(5000);
-
-        //        if (!timeout2)
-        //        {
-        //            throw new Exception("Deadlock appeared");
-        //        }
-        //    }
     }
 }

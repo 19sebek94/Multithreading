@@ -5,7 +5,7 @@ namespace Deadlock
     /// <summary>
     /// The best and the simplest solution for deadlocks. 
     /// Ordering locks in the same order in every part of application
-    /// prevents application from deadlock when lock are nested.
+    /// prevents application from deadlock when locks are nested.
     /// </summary>
     public class DeadlickFixedByOrderingLocksTests
     {
