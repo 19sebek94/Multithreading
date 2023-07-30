@@ -5,7 +5,11 @@ VisualStudioVersion = 17.4.33122.133
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Deadlock", "Deadlock\Deadlock.csproj", "{EDD51C80-D57A-42B4-9DE5-27C15BF42530}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dictionaries", "Dictionaries\Dictionaries.csproj", "{C2288736-B060-4369-BBD9-A5F814B0E70B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dictionaries", "Dictionaries\Dictionaries.csproj", "{C2288736-B060-4369-BBD9-A5F814B0E70B}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VolatileCases", "VolatileCases\VolatileCases.csproj", "{55A533AE-2856-4972-B6D6-9E710D41D588}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadSafeSingleton", "ThreadSafeSingleton\ThreadSafeSingleton.csproj", "{76202AAC-873E-4789-91AE-1CD836542667}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +25,14 @@ Global
 		{C2288736-B060-4369-BBD9-A5F814B0E70B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C2288736-B060-4369-BBD9-A5F814B0E70B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C2288736-B060-4369-BBD9-A5F814B0E70B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{55A533AE-2856-4972-B6D6-9E710D41D588}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{55A533AE-2856-4972-B6D6-9E710D41D588}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{55A533AE-2856-4972-B6D6-9E710D41D588}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{55A533AE-2856-4972-B6D6-9E710D41D588}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76202AAC-873E-4789-91AE-1CD836542667}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76202AAC-873E-4789-91AE-1CD836542667}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76202AAC-873E-4789-91AE-1CD836542667}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76202AAC-873E-4789-91AE-1CD836542667}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
