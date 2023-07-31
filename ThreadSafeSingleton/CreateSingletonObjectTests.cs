@@ -18,10 +18,10 @@ namespace ThreadSafeSingleton
         }
 
         [Fact]
-        public void CreateSingletonDirectorObjectTest()
+        public void CreateNotThreadSafeSingletonObjectTest()
         {
-            Thread thread1 = new Thread(() => NotThreadSafeSingletonDirector.GetInstance());
-            Thread thread2 = new Thread(() => NotThreadSafeSingletonDirector.GetInstance());
+            Thread thread1 = new Thread(() => NotThreadSafeSingleton.GetInstance());
+            Thread thread2 = new Thread(() => NotThreadSafeSingleton.GetInstance());
 
             thread1.Start();
             thread2.Start();
@@ -29,15 +29,15 @@ namespace ThreadSafeSingleton
             thread1.Join();
             thread2.Join();
 
-            output.WriteLine($"Number of objects: {NotThreadSafeSingletonDirector.ObjectCounter}");
-            Assert.Equal(1, NotThreadSafeSingletonDirector.ObjectCounter);
+            output.WriteLine($"Number of objects: {NotThreadSafeSingleton.ObjectCounter}");
+            Assert.Equal(1, NotThreadSafeSingleton.ObjectCounter);
         }
 
         [Fact]
-        public void CreateSingletonManagerObjectTest()
+        public void CreateLockedSingletonObjectTest()
         {
-            Thread thread1 = new Thread(() => ThreadSafeLockedSingletonManager.GetInstance());
-            Thread thread2 = new Thread(() => ThreadSafeLockedSingletonManager.GetInstance());
+            Thread thread1 = new Thread(() => LockedSingleton.GetInstance());
+            Thread thread2 = new Thread(() => LockedSingleton.GetInstance());
 
             thread1.Start();
             thread2.Start();
@@ -45,8 +45,24 @@ namespace ThreadSafeSingleton
             thread1.Join();
             thread2.Join();
 
-            output.WriteLine($"Number of objects: {ThreadSafeLockedSingletonManager.ObjectCounter}");
-            Assert.Equal(1, ThreadSafeLockedSingletonManager.ObjectCounter);
+            output.WriteLine($"Number of objects: {LockedSingleton.ObjectCounter}");
+            Assert.Equal(1, LockedSingleton.ObjectCounter);
+        }
+
+        [Fact]
+        public void CreateLazySingletonObjectTest()
+        {
+            Thread thread1 = new Thread(() => LazySingleton.GetInstance());
+            Thread thread2 = new Thread(() => LazySingleton.GetInstance());
+
+            thread1.Start();
+            thread2.Start();
+
+            thread1.Join();
+            thread2.Join();
+
+            output.WriteLine($"Number of objects: {LazySingleton.ObjectCounter}");
+            Assert.Equal(1, LazySingleton.ObjectCounter);
         }
     }
 }

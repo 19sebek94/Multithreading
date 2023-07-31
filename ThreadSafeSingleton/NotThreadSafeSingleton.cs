@@ -5,24 +5,24 @@
     /// director is null. Therefore it is possible to other thread to
     /// pass this condition in the same time.
     /// </summary>
-    public sealed class NotThreadSafeSingletonDirector
+    public sealed class NotThreadSafeSingleton
     {
-        private static NotThreadSafeSingletonDirector director = null;
+        private static NotThreadSafeSingleton instance = null;
         public static int ObjectCounter = 0;
 
-        private NotThreadSafeSingletonDirector()
+        private NotThreadSafeSingleton()
         {
             ObjectCounter++;
         }
 
-        public static NotThreadSafeSingletonDirector GetInstance()
+        public static NotThreadSafeSingleton GetInstance()
         {
-            if (director == null)
+            if (instance == null)
             {
                 Thread.Sleep(1000);
-                director = new NotThreadSafeSingletonDirector();
+                instance = new NotThreadSafeSingleton();
             }
-            return director;
+            return instance;
         }
     }
 }
