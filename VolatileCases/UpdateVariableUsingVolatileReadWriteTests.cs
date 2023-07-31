@@ -1,55 +1,59 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Xunit.Abstractions;
-
-namespace VolatileCases
+﻿namespace VolatileCases
 {
+    /// <summary>
+    /// In the first test we have one check of shared variable outside lock, one check inside lock and two writes.
+    /// Due to out of order execution made by processor and compilator to optimize as much as possible 
+    /// order of reading sharedBoolValue and writing to sharedBoolValue can be different and the result of x variable can be undeterministic.
+    /// The solution for that is explicitly use Volatile.Read where reading sharedBoolValue and Volatile.Write when writing to sharedBoolValue.
+    /// This will cause that operations on this variable will not be optimized or reorderd by processor/compiler.
+    /// Additionally we can ensure that processor executes logic in correct order by adding Thread.MemoryBarrier();
+    /// 
+    /// Of course using this kind of solution is not without cost. 
+    /// As mentioned before, processor/compiler will not optimize multithreaded functionality.
+    /// Volatile operations may require cache synchronization or flushing, which can introduce additional latency when accessing shared variables
+    /// </summary>
     public class UpdateVariableUsingVolatileReadWriteTests
     {
-        private readonly ITestOutputHelper output;
-        private int sharedValue = 0;
+        private bool sharedBoolValue = false;
+        private int sharedIntValue = 0;
+        private object lockInstance = new object();
 
-        public UpdateVariableUsingVolatileReadWriteTests(ITestOutputHelper output)
+        [Fact]
+        public void RunCodeWithoutVolatileWriteReadTest()
         {
-            this.output = output;
+            if (sharedBoolValue)
+            {
+                lock (lockInstance)
+                {
+                    if (sharedBoolValue)
+                    {
+                        sharedBoolValue = true;
+                        sharedIntValue = 10;
+                    }
+                }
+            }
+
+            var x = sharedIntValue;
         }
 
         [Fact]
-        public void UpdateVariableUsingVolatileTest()
+        public void RunCodeWithVolatileWriteReadTest()
         {
-            Thread writerThread = new Thread(() =>
+            if (Volatile.Read(ref sharedBoolValue))
             {
-                for (int i = 1; i <= 15; i++)
+                lock (lockInstance)
                 {
-                    var threadId = Thread.CurrentThread.ManagedThreadId;
-                    Volatile.Write(ref sharedValue, i);
-                    output.WriteLine($"{DateTime.Now.ToString("HH:mm:ss.fff",CultureInfo.InvariantCulture)}: Thread {threadId} saved {i} into shared variable.");
-                    Thread.Sleep(1000);
+                    if (sharedBoolValue)
+                    {
+                        Thread.MemoryBarrier();
+                        Volatile.Write(ref sharedBoolValue, true);
+                        Thread.MemoryBarrier();
+                        sharedIntValue = 10;
+                    }
                 }
-            });
+            }
 
-            Thread readerThread = new Thread(() =>
-            {
-                for (int i = 0; i < 15; i++)
-                {
-                    var threadId = Thread.CurrentThread.ManagedThreadId;
-                    //int value = Volatile.Read(ref sharedValue);
-                    output.WriteLine($"{DateTime.Now.ToString("HH:mm:ss.fff",CultureInfo.InvariantCulture)}: Thread {threadId} read {Volatile.Read(ref sharedValue)} from shared value.");
-                    Thread.Sleep(1000);
-                }
-            });
-
-            writerThread.Start();
-            readerThread.Start();
-
-            writerThread.Join();
-            readerThread.Join();
-
-            output.WriteLine("Program completed.");
+            var x = sharedIntValue;
         }
     }
 }
