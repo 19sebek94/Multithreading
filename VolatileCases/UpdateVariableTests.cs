@@ -5,11 +5,14 @@ namespace VolatileCases
     /// <summary>
     /// This is example of updating and reading value from shared variable by multiple threads. 
     /// One thread should update variable 100 and the other should read value 100 times.
-    /// Thanks to volatile we have correct state everytime reading the value.
+    /// Thanks to volatile we have the latest state everytime reading the value.
+    /// 
+    /// However, volatile does not prevent from race condition. In that case we would have to 
+    /// add additional locks while writing and reading shared value.
     /// 
     /// Value is shared in memory between threads everytime when changed. 
-    /// Volatile is good when one thread only reads value and the othere only makes only writes.
-    /// It is not safe e.g. while incrementing value where read and write happens one after another,
+    /// Volatile is applicable when one thread only reads value and the other makes only writes.
+    /// It is not safe e.g. while incrementing value where read, modify, write happen one after another,
     /// because volatile does not prevent from out of order execution of processor which can 
     /// change the order of executing writes and reads in multithreaded environment
     /// 
@@ -24,6 +27,7 @@ namespace VolatileCases
     {
         private readonly ITestOutputHelper output;
         private volatile int sharedVolatileValue = 0;
+        private object lockInstance = new object();
 
         public UpdateVariableTests(ITestOutputHelper output)
         {
@@ -39,8 +43,11 @@ namespace VolatileCases
                 for (int i = 1; i <= 100; i++)
                 {
                     output.WriteLine($"{DateTime.Now.ToString("HH:mm:ss:fffffff")} save: {i}");
-                    sharedVolatileValue = i;
-                    output.WriteLine($"{DateTime.Now.ToString("HH:mm:ss:fffffff")} done: {i}");
+                    lock (lockInstance)
+                    {
+                        sharedVolatileValue = i;
+                    }
+                    output.WriteLine($"{DateTime.Now.ToString("HH:mm:ss:fffffff")} saving done: {i}");
                     Thread.Sleep(100);
                 }
             });
@@ -49,7 +56,10 @@ namespace VolatileCases
             {
                 for (int i = 0; i < 100; i++)
                 {
-                    output.WriteLine($"{DateTime.Now.ToString("HH:mm:ss:fffffff")} read: {sharedVolatileValue}");
+                    lock (lockInstance)
+                    {
+                        output.WriteLine($"{DateTime.Now.ToString("HH:mm:ss:fffffff")} read: {sharedVolatileValue}");
+                    }
                     Thread.Sleep(100);
                 }
             });
