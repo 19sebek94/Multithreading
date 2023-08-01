@@ -11,7 +11,6 @@ namespace VolatileCases
     /// add additional locks while writing and reading shared value.
     /// 
     /// Value is shared in memory between threads everytime when changed. 
-    /// Volatile is applicable when one thread only reads value and the other makes only writes.
     /// It is not safe e.g. while incrementing value where read, modify, write happen one after another,
     /// because volatile does not prevent from out of order execution of processor which can 
     /// change the order of executing writes and reads in multithreaded environment
