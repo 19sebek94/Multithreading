@@ -9,7 +9,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Dictionaries", "Dictionarie
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VolatileCases", "VolatileCases\VolatileCases.csproj", "{55A533AE-2856-4972-B6D6-9E710D41D588}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThreadSafeSingleton", "ThreadSafeSingleton\ThreadSafeSingleton.csproj", "{76202AAC-873E-4789-91AE-1CD836542667}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ThreadSafeSingleton", "ThreadSafeSingleton\ThreadSafeSingleton.csproj", "{76202AAC-873E-4789-91AE-1CD836542667}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InterlockedSample", "InterlockedSample\InterlockedSample.csproj", "{4FD677A2-C54F-4D1C-92EC-98D556D2EDCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{76202AAC-873E-4789-91AE-1CD836542667}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76202AAC-873E-4789-91AE-1CD836542667}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76202AAC-873E-4789-91AE-1CD836542667}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4FD677A2-C54F-4D1C-92EC-98D556D2EDCC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4FD677A2-C54F-4D1C-92EC-98D556D2EDCC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4FD677A2-C54F-4D1C-92EC-98D556D2EDCC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4FD677A2-C54F-4D1C-92EC-98D556D2EDCC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
