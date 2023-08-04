@@ -2,11 +2,12 @@
 {
     /// <summary>
     /// In the first test we have one check of shared variable outside lock, one check inside lock and two writes.
-    /// Due to out of order execution made by processor and compilator to optimize as much as possible 
-    /// order of reading sharedBoolValue and writing to sharedBoolValue can be different and the result of x variable can be undeterministic.
-    /// The solution for that is explicitly use Volatile.Read where reading sharedBoolValue and Volatile.Write when writing to sharedBoolValue.
+    /// Due to out of order execution made by processor and compilator to optimize as much as possible, 
+    /// order of reading initialized value and writing to initialized value can be different and the result of x variable can be undeterministic.
+    /// The solution for that is explicitly use Volatile.Read where reading initialized value and Volatile.Write when writing to sharedBoolValue.
     /// This will cause that operations on this variable will not be optimized or reorderd by processor/compiler.
-    /// Additionally we can ensure that processor executes logic in correct order by adding Thread.MemoryBarrier();
+    /// Additionaly writing sharedIntValue value must be before writing initialized value and Volatile.Write
+    /// makes sure that memory barrier occured 
     /// 
     /// Of course using this kind of solution is not without cost. 
     /// As mentioned before, processor/compiler will not optimize multithreaded functionality.
@@ -14,20 +15,20 @@
     /// </summary>
     public class UpdateVariableUsingVolatileReadWriteTests
     {
-        private bool sharedBoolValue = false;
+        private bool initialized = false;
         private int sharedIntValue = 0;
         private object lockInstance = new object();
 
         [Fact]
-        public void RunCodeWithoutVolatileWriteReadTest()
+        public void WrongExampleWithoutVolatileWriteReadTest()
         {
-            if (sharedBoolValue)
+            if (initialized)
             {
                 lock (lockInstance)
                 {
-                    if (sharedBoolValue)
+                    if (initialized)
                     {
-                        sharedBoolValue = true;
+                        initialized = true;
                         sharedIntValue = 10;
                     }
                 }
@@ -37,18 +38,17 @@
         }
 
         [Fact]
-        public void RunCodeWithVolatileWriteReadTest()
+        public void CorrectCodeWithVolatileWriteReadTest()
         {
-            if (Volatile.Read(ref sharedBoolValue))
+            if (Volatile.Read(ref initialized))
             {
                 lock (lockInstance)
                 {
-                    if (sharedBoolValue)
+                    if (initialized)
                     {
-                        Thread.MemoryBarrier();
-                        Volatile.Write(ref sharedBoolValue, true);
-                        Thread.MemoryBarrier();
                         sharedIntValue = 10;
+                        //Memory barrier
+                        Volatile.Write(ref initialized, true);
                     }
                 }
             }
