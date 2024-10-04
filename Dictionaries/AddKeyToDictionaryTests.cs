@@ -8,7 +8,7 @@ namespace Dictionaries
     /// Both threads managed to pass this condition before updating dictionary.
     /// In that case the system is unpredictable and unstable.
     /// In this test depending on the roulette we can either achieve 
-    /// error or dictionary with duplicated keys or any other inconsistent result
+    /// error or dictionary with rubish keys or any other inconsistent result
     /// </summary>
     public class AddKeyToDictionaryTests
     {
@@ -39,6 +39,9 @@ namespace Dictionaries
             {
                 throw new Exception("Inconsistent data. Two the same keys in dictionary");
             }
+
+
+            output.WriteLine($"Dictionary keys: {string.Join(", ", dictionary.Keys)}");
             output.WriteLine("Main thread completed");
         }
 
